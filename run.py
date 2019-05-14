@@ -1,5 +1,5 @@
-from app.server import app
-from app.server import db
+from source.server import app
+from source.server import db
 
 if __name__=="__main__":
     db.create_all()

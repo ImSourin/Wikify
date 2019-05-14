@@ -1,4 +1,4 @@
-from app.server import db
+from source.server import db
 from flask_sqlalchemy import SQLAlchemy
 
 class wikitable(db.Model):
