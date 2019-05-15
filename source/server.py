@@ -92,8 +92,8 @@ def delete():
 '''API endpoint for Update operations'''
 @app.route('/api/v1',methods=["PUT"])
 def update():
-    '''This function receives a request to update a table entry. It receives a json object containing \'add\'
-    and \'remove\' params along with name. The params in add are added to the table entry params and the ones 
+    '''This function receives a request to update a table entry. It receives a json object containing Wadd
+    and remove params along with name. The params in add are added to the table entry params and the ones 
     in the remove section removed from the table entry params.'''
     try:
         '''check if the json obeject received is valid or not'''
