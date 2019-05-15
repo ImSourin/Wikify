@@ -58,3 +58,41 @@ def delete():
             else:
                 db.session.commit()
                 return make_response("Deletion Successful",200)
+
+@app.route('/api/v1',methods=["PUT"])
+def update():
+    try:
+        check = ast.literal_eval(json.dumps(request.get_json()))
+    except:
+        return make_response("Error in request body", 400)
+    else:
+        data = request.get_json()
+        try:
+            query_result = wikitable.query.filter_by(name=data['name']).first()
+            if not query_result:
+                raise Exception('Entry not found')
+        except:
+            return make_response("Entry not found", 404)
+        else:
+            try:
+                if data['name']:
+                    query_result.name = data['name']
+                present_params = json.loads(query_result.params)
+                if len(data['add'])>0:
+                    for param in data['add']:
+                        if param not in present_params:
+                            present_params.append(param)
+                if len(data['remove'])>0:
+                    count = 0
+                    for param in data['remove']:
+                        if param in present_params:
+                            present_params.remove(param)
+                            count = count + 1
+                    if count != len(data['remove']):
+                        raise Exception('Request for removing a parameter not present')
+                query_result.params = json.dumps(present_params)
+            except:
+                return make_response("Error in transaction.\nPossible cause : Request for removing a parameter not present", 404)
+            else:
+                db.session().commit()
+                return make_response("Transaction successful", 200)
