@@ -1,13 +1,13 @@
 import os
 from flask import Flask
-from flask import request,make_response,jsonify
+from flask import request,make_response
 from flask_sqlalchemy import SQLAlchemy
 import json
 # from app import app
 import ast
 import source.helper
 
-db_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+'/database'
+db_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),'database')
 app = Flask(__name__)
 database_file = "sqlite:///{}".format(os.path.join(db_dir, "wikify.db"))
 app.config["SQLALCHEMY_DATABASE_URI"] = database_file
@@ -96,3 +96,38 @@ def update():
             else:
                 db.session().commit()
                 return make_response("Transaction successful", 200)
+
+@app.route('/api/v1',methods=["GET"])
+def query():
+    try:
+        check = ast.literal_eval(json.dumps(request.get_json()))
+    except:
+        return make_response("Error in request body", 400)
+    else:
+        data = request.get_json()
+        try:
+            query_result = wikitable.query.filter_by(name=data['name']).first()
+            if not query_result:
+                raise Exception("No such entry")
+            query_params = json.loads(query_result.params)
+            url = 'https://en.wikipedia.org/api/rest_v1/page/summary/'+query_result.name
+            required_params = data['params']
+            try:
+                if not set(required_params).issubset(set(query_params)):
+                    raise Exception("One or more parameters are not present in database")
+            except:
+                return make_response("One or more parameters are not present in database",404)
+            else:
+                final_ans = ""
+                try:
+                    for param in required_params:
+                        value = source.helper.getvalue(param,url)
+                        if value is None:
+                            raise Exception("Invalid query")
+                        final_ans = final_ans + str(param) + " : " + str(value) + "\n"
+                except:
+                    return ("Error while fetching.\nPossible Causes : Invalid params.",405)
+                else:
+                    return make_response(final_ans,200)
+        except:
+            return make_response("Entry not found", 404)
