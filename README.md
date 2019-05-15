@@ -2,18 +2,18 @@
 ## Introduction
 Wikify is a REST API service with CRUD operations on extracting information from a Wikipedia page.
 ## Installation
-1. Download the project zip and extract it. The download link is :
+1. Download the project zip and extract it. The download link is :<br>
    `https://github.com/ImSourin/Wikify/archive/master.zip`
 2. Change your current working directory to the project directory.
-3. Install all the required packages using the following command:
+3. Install all the required packages using the following command:<br>
    `pip install -r requirements.txt`
 4. To use the api service, two things can be done.
     Either the hosted server can be used or the local server can be hosted and used.
-   1. For using the hosted service, simply run the following command after changing the directory to Wikify/test.
+   1. For using the hosted service, simply run the following command after changing the directory to Wikify/test.<br>
     `python test.py`
-   2. For using the locally hosted server, first host the server by running the following command.
+   2. For using the locally hosted server, first host the server by running the following command.<br>
     `python run.py`
-    Then, move to the test directory and open the test.py file. **Uncomment** the line `url = localurl` and in the test directory run the following command:
+    Then, move to the test directory and open the test.py file. **Uncomment** the line `url = localurl` and in the test directory run the following command:<br>
     `python test.py`
 ## Initial State
 * The table initially contains 2 entries :
