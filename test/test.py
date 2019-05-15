@@ -10,16 +10,16 @@ url = hostedurl
 
 '''Create'''
 json_obj = {"name": "Virat_Kohli", "params": ["type", "api_urls.references.reference_lists[0].id", "thumbnail.source"]}
-print(requests.post(url=url,headers={"content-type":"application/json"},data=json.dumps(json_obj)).content)
+print(requests.post(url=url,headers={"content-type":"application/json"},data=json.dumps(json_obj)).content.decode("utf-8"))
 
 '''Read'''
 json_obj = {"name": "Virat_Kohli", "params": ["api_urls.references.reference_lists[0].id", "thumbnail.source"]}
-print(requests.get(url=url,headers={"content-type":"application/json"},data=json.dumps(json_obj)).content)
+print(requests.get(url=url,headers={"content-type":"application/json"},data=json.dumps(json_obj)).content.decode("utf-8"))
 
 '''Update'''
 json_obj = {"name": "Virat_Kohli", "add": ["title"], "remove": ["type"]}
-print(requests.put(url=url,headers={"content-type":"application/json"},data=json.dumps(json_obj)).content)
+print(requests.put(url=url,headers={"content-type":"application/json"},data=json.dumps(json_obj)).content.decode("utf-8"))
 
 '''Delete'''
 json_obj = {"name": "Virat_Kohli"}
-print(requests.delete(url=url,headers={"content-type":"application/json"},data=json.dumps(json_obj)).content)
+print(requests.delete(url=url,headers={"content-type":"application/json"},data=json.dumps(json_obj)).content.decode("utf-8"))
